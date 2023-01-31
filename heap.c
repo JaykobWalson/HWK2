@@ -17,7 +17,12 @@
  */
 void heapSort(Employee *A, int n)
 {
-	// TODO - BuildHeap on the heap
+	while(n > 0){
+		swap(&A[n-1], &A[0]);
+		n--;
+		heapify(A, 0, n);
+	}
+
 
 	// TODO - while n > 0:
 	// TODO - swap A[n-1] with A[0], since A[0] is the smallest number.
@@ -35,7 +40,12 @@ void heapSort(Employee *A, int n)
  */
 void buildHeap(Employee *A, int n)
 {
+	for(int i = n/2; i >= 0; i--){
+		heapify(A, i, n);
+	}
+
 	// TODO - heapify() every element from A[n/2] down-to A[0]
+	
 }
 
 /**
@@ -48,11 +58,27 @@ void buildHeap(Employee *A, int n)
  */
 void heapify(Employee *A, int i, int n)
 {
-	// TODO - get index of left child of element i
-	// TODO - get index of right child of element i
+    int left_child = 2 * (i + 1)- 1;
+	int right_child = 2*(i + 1);
+	
 
-	// TODO - determine which child has a smaller salary. We'll call the index of this
-	//		element: "smaller"
+
+
+	if(left_child < n || right_child < n){
+		int smaller = left_child;
+		if(right_child < n && A[left_child].salary > A[right_child].salary){
+			smaller = right_child;//base case
+
+		}
+		if(A[i].salary > A[smaller].salary){
+			swap(&A[i], &A[smaller]);
+			heapify(A, smaller, n);
+		}
+
+	}
+
+
+	
 
 	// TODO - recursively check if the salary at A[i] > the salary at A[smaller]. If it is, swap the two.
 	//			Then recursively heapify A[smaller].
@@ -65,8 +91,9 @@ void heapify(Employee *A, int i, int n)
  * @param *e2 Another Employee to swap with
  */
 void swap(Employee *e1, Employee *e2)
-{
-	// TODO
+{   Employee holder = *e1;
+	*e1 = *e2;
+	*e2 = holder;
 }
 
 /**
@@ -74,7 +101,9 @@ void swap(Employee *e1, Employee *e2)
  * @param	*A	Pointer to the list of employees
  * @param	n	Size of the list
  */
-void printList(Employee *A, int n)
-{
-	// TODO
+void printList(Employee *A, int n){
+	for(int i = 0; i < n; i++){
+		println("%s",A[i].name);
+	}
 }
+
